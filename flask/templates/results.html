@@ -2,17 +2,31 @@
 <html lang="en">
 
 <head>
-  <title>First Flask App Results</title>
-  <link rel="stylesheet" media="screen" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+  <title>SignBot Results</title>
+  <link rel="stylesheet" media="screen" href="../static/bootstrap.min.css">
+  <!-- <link rel="stylesheet" media="screen" href="{{ url_for('static', filename='bootstrap.min.css') }}"> -->
 </head>
 
-<body>
-  We predict that this wine is from class {{ predicted_class }}
-  <br>
 
-  <img src="{{ url_for('static', filename='upward_sloping_chart.png') }}" alt="">
+<div class="jumbotron">
+  <div class="container">
 
-  <a href="/">Go back home</a>
-</body>
+    <body>
+      <p>
+        This was the image shown to the model, with the true classification being {{true_label}}
+      </p>
+      <img src="{{ url_for('static', filename='/test_images/'+file_name) }}" alt="">
+      <br>
+      <br>
+      <p>
+        The model classified the image as letter {{ predicted_class }}
+      </p>
+      <br>
+      <a href="/">Go back home</a>
+    </body>
+
+  </div>
+</div>
+
 
 </html>

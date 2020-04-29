@@ -1,48 +1,215 @@
 <html>
 
 <head>
-  <title>First Flask App</title>
+  <title>SignBot</title>
   <link rel="stylesheet" media="screen" href="/static/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/styles.css">
+  <!-- <link href="{{url_for('static', filename=styles.css)}}"> -->
 </head>
 
 <body>
   <div class="jumbotron">
     <div class="container">
-      <h1 class="display-3">Wine Predictor</h1>
+      <h1 class="display-3">ASL Image Classifier</h1>
       <p>
-        Some cool content will go here
+        This project serves as proxy to a Convolutional Neural Network that can detect and interpret ASL from images and
+        live video. The model used in this project was built from scratch using the Keras Functional API (running
+        Tensorflow 2.1.0 back-end). CNN was trained on 87000 jpg images of hands, 3000 images per letter of the American
+        Sign Language alphabet, as well as 3000 images for 'delete', 'space', and 3000 images of blank rooms categorized
+        as 'nothing'. Image data can be found and downloaded [here](https://www.kaggle.com/grassknoted/asl-alphabet).
+
+        The goal of this project was to gain a deeper understanding of Convolutional Neural Network architecture, as
+        well as to explore real time classification using computer vision. Due to the initial time constraints on
+        deployment, currently this page serves purely as a demonstration of the model's performance on the provided
+        validation data. You can explore how the model performs classifying a live video feed by cloning down the
+        repository for this project, and following the instructions in the Readme.md filename
       </p>
       <p>
-        <form action="/get_results" method="post">
-          <p>Alcohol</p>
-          <input type="text" name="Alcohol" value="12.82">
-          <p>Malic acid</p>
-          <input type="text" name="Malic acid" value="3.37">
-          <p>Ash</p>
-          <input type="text" name="Ash" value="2.3">
-          <p>Alcalinity of ash</p>
-          <input type="text" name="Alcalinity of ash" value="19.5">
-          <p>Magnesium</p>
-          <input type="text" name="Magnesium" value="88.0">
-          <p>Total phenols</p>
-          <input type="text" name="Total phenols" value="1.48">
-          <p>Flavanoids</p>
-          <input type="text" name="Flavanoids" value="0.66">
-          <p>Nonflavanoid phenols</p>
-          <input type="text" name="Nonflavanoid phenols" value="0.4">
-          <p>Proanthocyanins</p>
-          <input type="text" name="Proanthocyanins" value="0.97">
-          <p>Color intensity</p>
-          <input type="text" name="Color intensity" value="10.26">
-          <p>Hue</p>
-          <input type="text" name="Hue" value="0.72">
-          <p>OD280/OD315 of diluted wines</p>
-          <input type="text" name="OD280/OD315 of diluted wines" value="1.75">
-          <p>Proline</p>
-          <input type="text" name="Proline" value="685.0">
-          <br>
-          <input type="submit" class="btn btn-primary btn-lg" value="Predict!">
-        </form>
+        Select a validation image from below to see the model's classification
+      </p>
+      <p>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="A" hidden=True>
+            <input type="text" name="image_name" value="A_test.jpg" hidden=True>
+            <input type="image" id="image" alt="A" src="static/test_images/A_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="B" hidden=True>
+            <input type="text" name="image_name" value="B_test.jpg" hidden=True>
+            <input type="image" id="image" alt="B" src="static/test_images/B_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="C" hidden=True>
+            <input type="text" name="image_name" value="C_test.jpg" hidden=True>
+            <input type="image" id="image" alt="C" src="static/test_images/C_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="D" hidden=True>
+            <input type="text" name="image_name" value="D_test.jpg" hidden=True>
+            <input type="image" id="image" alt="D" src="static/test_images/D_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="E" hidden=True>
+            <input type="text" name="image_name" value="E_test.jpg" hidden=True>
+            <input type="image" id="image" alt="E" src="static/test_images/E_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="F" hidden=True>
+            <input type="text" name="image_name" value="F_test.jpg" hidden=True>
+            <input type="image" id="image" alt="F" src="static/test_images/F_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="G" hidden=True>
+            <input type="text" name="image_name" value="G_test.jpg" hidden=True>
+            <input type="image" id="image" alt="G" src="static/test_images/G_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="H" hidden=True>
+            <input type="text" name="image_name" value="H_test.jpg" hidden=True>
+            <input type="image" id="image" alt="H" src="static/test_images/H_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="I" hidden=True>
+            <input type="text" name="image_name" value="I_test.jpg" hidden=True>
+            <input type="image" id="image" alt="I" src="static/test_images/I_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="J" hidden=True>
+            <input type="text" name="image_name" value="J_test.jpg" hidden=True>
+            <input type="image" id="image" alt="J" src="static/test_images/J_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="K" hidden=True>
+            <input type="text" name="image_name" value="K_test.jpg" hidden=True>
+            <input type="image" id="image" alt="K" src="static/test_images/K_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="L" hidden=True>
+            <input type="text" name="image_name" value="L_test.jpg" hidden=True>
+            <input type="image" id="image" alt="L" src="static/test_images/L_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="M" hidden=True>
+            <input type="text" name="image_name" value="M_test.jpg" hidden=True>
+            <input type="image" id="image" alt="M" src="static/test_images/M_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="N" hidden=True>
+            <input type="text" name="image_name" value="N_test.jpg" hidden=True>
+            <input type="image" id="image" alt="N" src="static/test_images/N_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="O" hidden=True>
+            <input type="text" name="image_name" value="O_test.jpg" hidden=True>
+            <input type="image" id="image" alt="O" src="static/test_images/O_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="P" hidden=True>
+            <input type="text" name="image_name" value="P_test.jpg" hidden=True>
+            <input type="image" id="image" alt="P" src="static/test_images/P_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="Q" hidden=True>
+            <input type="text" name="image_name" value="Q_test.jpg" hidden=True>
+            <input type="image" id="image" alt="Q" src="static/test_images/Q_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="R" hidden=True>
+            <input type="text" name="image_name" value="R_test.jpg" hidden=True>
+            <input type="image" id="image" alt="R" src="static/test_images/R_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="S" hidden=True>
+            <input type="text" name="image_name" value="S_test.jpg" hidden=True>
+            <input type="image" id="image" alt="S" src="static/test_images/S_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="T" hidden=True>
+            <input type="text" name="image_name" value="T_test.jpg" hidden=True>
+            <input type="image" id="image" alt="T" src="static/test_images/T_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="U" hidden=True>
+            <input type="text" name="image_name" value="U_test.jpg" hidden=True>
+            <input type="image" id="image" alt="U" src="static/test_images/U_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="V" hidden=True>
+            <input type="text" name="image_name" value="V_test.jpg" hidden=True>
+            <input type="image" id="image" alt="V" src="static/test_images/V_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="W" hidden=True>
+            <input type="text" name="image_name" value="W_test.jpg" hidden=True>
+            <input type="image" id="image" alt="W" src="static/test_images/W_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="X" hidden=True>
+            <input type="text" name="image_name" value="X_test.jpg" hidden=True>
+            <input type="image" id="image" alt="X" src="static/test_images/X_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="Y" hidden=True>
+            <input type="text" name="image_name" value="Y_test.jpg" hidden=True>
+            <input type="image" id="image" alt="Y" src="static/test_images/Y_test.jpg">
+          </form>
+        </div>
+        <div class=test_image_tile>
+          <form action="/get_results" method="post">
+            <input type="text" name="image_true_label" value="Z" hidden=True>
+            <input type="text" name="image_name" value="Z_test.jpg" hidden=True>
+            <input type="image" id="image" alt="Z" src="static/test_images/Z_test.jpg">
+          </form>
+        </div>
       </p>
     </div>
   </div>
