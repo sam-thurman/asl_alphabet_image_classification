@@ -57,5 +57,5 @@ model.add(Dense(nb_classes, activation='softmax'))
 ## Data Preparation
 There were two portions of data preparation that need to happen in order to make this project work.  First, I had to generate usable data to train my model.  Second, I had to produce a groomed video feed, meaning a live video capture whose frames were formatted in an interpretable way for the model.
 #### For modeling
-
+For the modeling phase, data preparation was pretty minimal in terms of hands-on effort.  I chose Keras's ImageDataGenerator module because it has an easy interface to read in images directly from your local database, and has some great pre-processing functionality.  In terms of pre-processing, the image pixel d
 #### For predictions via OpenCV 
