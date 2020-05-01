@@ -1,3 +1,4 @@
+# Import required packages
 import numpy as np
 import cv2
 import imutils
@@ -7,7 +8,8 @@ import keras
 from keras import Model, Sequential
 from keras.models import load_model
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
-# key dictionary from validation generator
+
+# Key dictionary from validation generator, used to get true labels from preds
 key_dict = {'A': 0, 'B': 1, 'C': 2,
             'D': 3, 'E': 4, 'F': 5,
             'G': 6, 'H': 7, 'I': 8,
@@ -19,17 +21,14 @@ key_dict = {'A': 0, 'B': 1, 'C': 2,
             'Y': 24, 'Z': 25, 'del': 26,
             'nothing': 27, 'space': 28}
 
+# Init video capture
 cap = cv2.VideoCapture(0)
-model = load_model('../model8.h5')
+# Load classifier
+model = load_model('../../models/model3.h5')
 
 while(True):
     # Capture frame-by-frame
     ret, frame = cap.read()
-
-    # Our operations on the frame come here
-
-    # turn to grayscale
-    # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     # Crop edges of webcam view to make square
     (h, w, c) = frame.shape
@@ -38,18 +37,17 @@ while(True):
     #                 y1            y2                x1            x2
     square_roi = frame[square_feed[0]:square_feed[1],
                        square_feed[2]:square_feed[3]]
-
     # Resize for model input
     input_size = 200
     resized = cv2.resize(square_roi, (input_size, input_size))
-
-    # flip horizontally for easier user interpretability
+    # Flip horizontally for easier user interpretability
     flip = cv2.flip(resized, 1)
-
-    # display model output on screen
+    # Copy frame for model input
     model_in = flip.copy()
-    # model_in = np.expand_dims(model_in, axis=2)
+
+    # Format for model prediction
     model_in = np.expand_dims(model_in, axis=0)
+    # Classify and print class to original (shown) frame
     output = np.argmax(model.predict(model_in))
     letter_predict = list(key_dict.keys())[
         list(key_dict.values()).index(output)]
@@ -60,11 +58,11 @@ while(True):
     cv2.imshow("Fixed Resizing", flip)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-del model
+
 print(output.shape)
 print('width={}, height={}'.format(w, h))
 
 # When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
-# del model
+del model
