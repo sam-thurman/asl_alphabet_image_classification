@@ -12,6 +12,7 @@ import sys
 warnings.filterwarnings('ignore')
 coins = data.coins()
 
+unet = load_model('../models/edge_detect/unet2.keras')
 
 def to_rgb1(im):
     # I think this will be slow
@@ -31,7 +32,8 @@ def float_image_to_uint8(im):
     return (im * 255).round().astype('uint8')
 
 
-def predict_custom_image(image=None, model=None):
+def predict_custom_image(image=None):
+    model = unet
     if isinstance(image, str):
         im = imread(image)
     else:
@@ -41,7 +43,7 @@ def predict_custom_image(image=None, model=None):
         im = to_rgb1(im)
 
     target_size = model.input.__dict__['_keras_shape'][1:-1]
-
+    print(target_size)
     im_resize = resize(im, target_size)
     im = np.expand_dims(im_resize, 0)
     preds = model.predict(im)
