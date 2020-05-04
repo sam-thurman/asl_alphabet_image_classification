@@ -5,7 +5,7 @@ from skimage import data
 from skimage.transform import resize
 from keras.models import load_model
 import matplotlib.pyplot as plt
-
+from skimage.color import rgb2gray, gray2rgb
 # import matplotlib.pyplot as plt
 import sys
 
@@ -31,37 +31,34 @@ def to_rgb1(im):
 def float_image_to_uint8(im):
     return (im * 255).round().astype('uint8')
 
+def predict_custom_image(image):
+    model=unet
+    # im = gray2rgb(image)
+    # if isinstance(image, str):
+    #     im = imread(image)
+    # else:
+    #     im = image
 
-def predict_custom_image(image=None):
-    model = unet
-    if isinstance(image, str):
-        im = imread(image)
-    else:
-        im = image
-
-    if len(im.shape) == 2:
-        im = to_rgb1(im)
+    # if len(im.shape) == 2:
+    #     im = to_rgb1(im)
 
     target_size = model.input.__dict__['_keras_shape'][1:-1]
-    print(target_size)
-    im_resize = resize(im, target_size)
-    im = np.expand_dims(im_resize, 0)
+    im_resize = resize(image, target_size)
+    gray = gray2rgb(im_resize[:,:,0])
+    im = np.expand_dims(gray, axis=0)
     preds = model.predict(im)
-    pred = preds[:, :, :, 0][0]
-
+    pred = np.float_(preds[:, :, :, 0][0])
+    # pred = np.expand_dims(pred, axis=2)
+    pred = resize(pred, (200,200))
+    pred = np.expand_dims(pred, axis=2)
     #     im_resize=cv2.cvtColor(im_resize, cv2.COLOR_RGB2GRAY)
 
     # canny_pred = blurr_canny(float_image_to_uint8(im_resize))
 
     return pred
+    # return to_rgb1(pred)
 
-if __name__ == '__main__':
-    file_name = sys.argv[1]
-    unet = load_model('unet2.keras')
-    c = predict_custom_image(file_name, unet)
-    imsave('edges.jpg', c)
-
-
-
-
-#docker run -v /path/to/file1:/path/to/file.txt -t boot:latest python boot.py file1.txt
+def color_to_gray(img):
+    image = predict_custom_image(img)
+    gray_image = rgb2gray(img)
+    return gray_image

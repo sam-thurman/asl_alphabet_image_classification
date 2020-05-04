@@ -6,7 +6,9 @@ from skimage import data
 from skimage.transform import resize
 from keras.models import load_model
 import sys
-
+import cv2
+import skimage
+from skimage.color import rgb2gray, gray2rgb
 warnings.filterwarnings('ignore')
 coins = data.coins()
 
@@ -59,5 +61,6 @@ def predict_custom_image(image=None, model=None):
     preds = model.predict(im)
     # Acces prediction image
     pred = preds[:, :, :, 0][0]
+    gray = rgb2gray(pred)
 
-    return pred
+    return gray

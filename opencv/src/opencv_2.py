@@ -48,6 +48,7 @@ while(True):
     # Format for model prediction
     model_in = np.expand_dims(model_in, axis=0)
     # Classify and print class to original (shown) frame
+
     output = np.argmax(model.predict(model_in))
     letter_predict = list(key_dict.keys())[
         list(key_dict.values()).index(output)]

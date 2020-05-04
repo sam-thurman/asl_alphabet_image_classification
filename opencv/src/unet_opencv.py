@@ -29,7 +29,7 @@ cap = cv2.VideoCapture(0)
 # Load edger and classifier
 model_path = '../../models/'
 edger = load_model(join(model_path, 'edge_detect/unet2.keras'))
-# classifier = load_model(join(model_path, 'model3.h5'))
+classifier = load_model(join(model_path, 'model19.keras'))
 
 while(True):
     # Capture frame-by-frame
@@ -46,24 +46,21 @@ while(True):
     # Flip horizontally for easier user interpretability
     mask = detect_edges.predict_custom_image(image=square_roi, model=edger)
     flip = cv2.flip(mask, 1)
-    
-    # # Copy frame for model input
-    # model_in = flip.copy()
 
-    # # Frame from gray --> RGB
-    # model_in = detect_edges.to_rgb1(model_in)
-    # # Add batch dimension
-    # model_in = np.expand_dims(model_in, axis=0)
-    # # Resize model input
-    # input_size = 200
-    # resized_model_in = resize(model_in, (1, input_size, input_size, 3))
-    # # Classify and print class to original (shown) frame
-    # output = np.argmax(classifier.predict(resized_model_in))
-    # letter_predict = list(key_dict.keys())[
-    #     list(key_dict.values()).index(output)]
-    # cv2.putText(mask, letter_predict, (10, 25),
-    #             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-    # print(letter_predict)
+    # Copy frame for model input
+    model_in = flip.copy()
+    # Add batch dimension
+    batch = np.expand_dims(model_in, axis=0)
+    # Resize model input
+    input_size = 200
+    resized_model_in = resize(batch, (1, input_size, input_size, 1))
+    # Classify and print class to original (shown) frame
+    output = np.argmax(classifier.predict(resized_model_in))
+    letter_predict = list(key_dict.keys())[
+        list(key_dict.values()).index(output)]
+    cv2.putText(mask, letter_predict, (10, 25),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+    print(letter_predict)
 
     # Display the resulting frame
     cv2.imshow("Masked/predicted", flip)
