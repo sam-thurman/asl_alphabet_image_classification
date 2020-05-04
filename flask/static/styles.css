@@ -1,6 +1,6 @@
 input{
   width:200px;}
-p{
-  color:white}
+h1, p{
+  color:rgb(52, 52, 52);}
 html, body{
-  background-color: aqua;}
+  background-color: rgb(138, 255, 255);}
