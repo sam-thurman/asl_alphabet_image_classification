@@ -98,10 +98,10 @@ def predict_custom_image(model, image):
     im = np.expand_dims(gray, axis=0)
     preds = model.predict(im)
     pred = np.float_(preds[:, :, :, 0][0])
-    # pred = np.expand_dims(pred, axis=2)
     pred = resize(pred, (200, 200))
     pred = np.expand_dims(pred, axis=2)
     pred = np.expand_dims(pred, axis=0)
+
     #     im_resize=cv2.cvtColor(im_resize, cv2.COLOR_RGB2GRAY)
 
     # canny_pred = blurr_canny(float_image_to_uint8(im_resize))

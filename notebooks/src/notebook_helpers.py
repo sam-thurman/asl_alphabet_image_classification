@@ -21,10 +21,12 @@ warnings.filterwarnings('ignore')
 coins = data.coins()
 
 unet = load_model('../../models/edge_detect/unet2.keras')
+# unet = load_model('../../models/edge_detect/unet.h5')
 graph = tf.get_default_graph()
 sess = keras.backend.get_session()
 init = tf.global_variables_initializer()
 sess.run(init)
+
 
 def load_saved_model(model_name):
     '''
@@ -33,6 +35,7 @@ def load_saved_model(model_name):
     '''
     print('running')
     return keras.models.load_model(f'../../models/{model_name}')
+
 
 def to_rgb1(im):
     # I think this will be slow
@@ -83,6 +86,7 @@ def predict_custom_image(image):
         return pred
     # return to_rgb1(pred)
 
+
 def color_to_gray(img):
     image = predict_custom_image(img)
     gray_image = rgb2gray(img)
@@ -90,16 +94,18 @@ def color_to_gray(img):
 
 
 def load_val_generator():
+
     validation_path = '../../data/asl_alphabet_validation'
     image_size = 200
     batch_size = 32
     valgen = keras.preprocessing.image.ImageDataGenerator(
-        rescale=1./255, preprocessing_function=predict_custom_image) 
+        rescale=1./255, preprocessing_function=predict_custom_image)
     val_generator = valgen.flow_from_directory(
-                validation_path,  # directory for validation images
-                target_size=(image_size, image_size),
-                batch_size=batch_size,
-                class_mode='categorical',
-                color_mode='grayscale',
-                shuffle=False)
+        validation_path,  # directory for validation images
+        target_size=(image_size, image_size),
+        batch_size=batch_size,
+        class_mode='categorical',
+        color_mode='grayscale',
+        shuffle=False)
     return val_generator
+
