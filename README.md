@@ -3,7 +3,7 @@
 `usage_and_setup.md`--> *An important note on compatibility and running notebooks*
 `environment.yml`--> Variables to recreate conda environment
 `notebooks/final/`--> Final model evaluation and quick view of processed data <br>
-`notebooks/exploratory/`--> Model construction, data cleaning, model explanations and evaluations <br>
+`notebooks/model_create/`--> Model construction notebooks and scripts for classifier and edge-detector <br>
 `opencv/src/`--> Scripts for OpenCV live video capture with edge detection <br>
 `flask`--> Code for flask deployment.  Flask app contains simple model input-->prediction demo <br>
 
