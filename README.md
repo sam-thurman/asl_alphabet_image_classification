@@ -12,6 +12,7 @@ This project serves as proof of concept for an algorithm that can detect and int
 <br>
 The goal of this project was to gain a deeper understanding of Convolutional Neural Network architecture, as well as to explore real time classification using computer vision.  Although work on this project is purely exploratory and current output is novel, a possible future application for this algorithm would be automating ASL recognition in video conferencing, removing need for human translators.
 <br>
+<br>
 To access this repository and it's contents, clone down the repo and use the `env.yml` file to install the required packages.  For more information on how to do that, go [here](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file) for a conda cheat sheet.
 
 ## Model Architecture and Performance
@@ -82,4 +83,5 @@ OpenCV works the same way as any basic webcam, by recording frames every 20th or
 
 ## Sources
 Final edge detection architecture trained on BSD500 contour dataset - [article here](http://www.kubacieslik.com/developing-deep-learning-edge-detector-solve-toy-problem/)
+<br>
 Keras modeling, [info here](https://keras.io/why-use-keras/)
