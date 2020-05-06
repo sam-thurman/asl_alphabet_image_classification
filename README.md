@@ -10,7 +10,7 @@
 ## Image classification for letters of ASL alphabet
 This project serves as proof of concept for an algorithm that can detect and interpret ASL from images and live video.  The neural net used in this project is a Keras Sequential() model running on the Tensorflow 2.1 backend.  Model was trained on 87000 jpg images of hands, 3000 images per letter of the American Sign Language alphabet, as well as 3000 images for 'delete', 'space', and 3000 images of blank rooms categorized as 'nothing'.  Image data can be found and downloaded [here](https://www.kaggle.com/grassknoted/asl-alphabet).  
 <br>
-The goal of this project was to gain a deeper understanding of Convolutional Neural Network architecture, as well as to explore real time classification using computer vision.  Although work on this project is purely exploratory, a possible application for this algorithm would be automating ASL recognition in video conferencing, removing need for human translators.
+The goal of this project was to gain a deeper understanding of Convolutional Neural Network architecture, as well as to explore real time classification using computer vision.  Although work on this project is purely exploratory and current output is novel, a possible future application for this algorithm would be automating ASL recognition in video conferencing, removing need for human translators.
 <br>
 To access this repository and it's contents, clone down the repo and use the `env.yml` file to install the required packages.  For more information on how to do that, go [here](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file) for a conda cheat sheet.
 
