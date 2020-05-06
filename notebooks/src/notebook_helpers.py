@@ -16,6 +16,9 @@ from tensorflow.python.keras.backend import set_session
 import sys
 import os
 
+# don't print annoying INFO and WARNING messages
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 unet = load_model('../../models/edge_detect/unet2.keras')
 
 
