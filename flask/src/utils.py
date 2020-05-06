@@ -107,7 +107,6 @@ def predict_custom_image(model, image):
     # canny_pred = blurr_canny(float_image_to_uint8(im_resize))
 
     return pred
-    # return to_rgb1(pred)
 
 
 def color_to_gray(img):

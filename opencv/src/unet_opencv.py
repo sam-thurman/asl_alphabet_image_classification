@@ -60,7 +60,7 @@ while(True):
         list(key_dict.values()).index(output)]
     cv2.putText(mask, letter_predict, (10, 25),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-    print(letter_predict)
+    # print(letter_predict)
 
     # Display the resulting frame
     cv2.imshow("Masked/predicted", flip)

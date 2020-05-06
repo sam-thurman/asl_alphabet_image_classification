@@ -14,27 +14,22 @@ from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_a
 from tensorflow.python.keras.backend import set_session
 import os
 
-os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
-tf.keras.backend.clear_session()
+# os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
+# tf.keras.backend.clear_session()
 
-warnings.filterwarnings('ignore')
-coins = data.coins()
+# warnings.filterwarnings('ignore')
+# # coins = data.coins()
 
 unet = load_model('../../models/edge_detect/unet2.keras')
-# unet = load_model('../../models/edge_detect/unet.h5')
-graph = tf.get_default_graph()
-sess = keras.backend.get_session()
-init = tf.global_variables_initializer()
-sess.run(init)
 
 
-def load_saved_model(model_name):
+def load_saved_model(model_path):
     '''
     Takes in a saved model name as a string and returns the loaded model
-    (model19.h5)
     '''
     print('running')
-    return keras.models.load_model(f'../../models/{model_name}')
+    model = load_model(model_path)
+    return model
 
 
 def to_rgb1(im):
@@ -70,21 +65,15 @@ def predict_custom_image(image):
     im_resize = resize(image, target_size)
     gray = gray2rgb(im_resize[:, :, 0])
     im = np.expand_dims(gray, axis=0)
-    global graph
-    global sess
-    with graph.as_default():
-        set_session(sess)
-        preds = model.predict(im)
-        pred = np.float_(preds[:, :, :, 0][0])
-        # pred = np.expand_dims(pred, axis=2)
-        pred = resize(pred, (200, 200))
-        pred = np.expand_dims(pred, axis=2)
+    preds = model.predict(im)
+    pred = np.float_(preds[:, :, :, 0][0])
+    pred = resize(pred, (200, 200))
+    pred = np.expand_dims(pred, axis=2)
         #     im_resize=cv2.cvtColor(im_resize, cv2.COLOR_RGB2GRAY)
 
         # canny_pred = blurr_canny(float_image_to_uint8(im_resize))
 
-        return pred
-    # return to_rgb1(pred)
+    return pred
 
 
 def color_to_gray(img):
