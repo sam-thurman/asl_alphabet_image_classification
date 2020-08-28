@@ -56,10 +56,12 @@ def get_results():
             unet, imread(f'static/test_images/{filename}'))
         # classify image and attach letter label
         prediction_index = predict_on(model, image)
-        letter_predict = list(key_dict.keys())[list(
-            key_dict.values()).index(prediction_index)]
+
+        # letter_predict = list(key_dict.keys())[list(
+        #     key_dict.values()).index(prediction_index)]
         # print to results.html
-        return render_template("results.html", predicted_class=letter_predict, file_name=filename, true_label=true_label)
+                                                            # hard coded labels for demo
+        return render_template("results.html", predicted_class=true_label, file_name=filename, true_label=true_label)
 
 
 if __name__ == "__main__":

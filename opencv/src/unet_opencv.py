@@ -29,7 +29,7 @@ cap = cv2.VideoCapture(0)
 # Load edger and classifier
 model_path = '../../models/'
 edger = load_model(join(model_path, 'edge_detect/unet2.keras'))
-classifier = load_model(join(model_path, 'model19.keras'))
+classifier = load_model(join(model_path, 'model33.h5'))
 
 while(True):
     # Capture frame-by-frame
@@ -58,8 +58,8 @@ while(True):
     output = np.argmax(classifier.predict(resized_model_in))
     letter_predict = list(key_dict.keys())[
         list(key_dict.values()).index(output)]
-    cv2.putText(mask, letter_predict, (10, 25),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+    cv2.putText(flip, letter_predict, (10, 25),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
     # print(letter_predict)
 
     # Display the resulting frame

@@ -25,29 +25,19 @@ from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_a
 
 import sys
 import os
-from load_model import load_saved_model
-unet = load_saved_model('../models/edge_detect/unet2.keras')
+# from load_model import load_saved_model
+from keras.models import load_model
 
-
-def to_rgb1(im):
-    # I think this will be slow
-    w, h = im.shape
-    ret = np.empty((w, h, 3), dtype=np.uint8)
-    ret[:, :, 0] = im
-    ret[:, :, 1] = im
-    ret[:, :, 2] = im
-    return ret
-
-# def blurr_canny(im, sigma=0.2):
-#     blur = cv2.GaussianBlur(im, (5, 5), 0)
-#     return auto_canny(blur)
-
-
-def float_image_to_uint8(im):
-    return (im * 255).round().astype('uint8')
+unet = load_model('../models/edge_detect/unet2.keras')
 
 
 def predict_custom_image(image):
+    '''
+    This is the main preprocessing function used before classification of images.
+    Input is an image or image array,
+    Output is an image mask containing color edges in the original frame
+    Output size is hard-coded for specific classifier input
+    '''
     model = unet
 
     target_size = model.input.__dict__['_keras_shape'][1:-1]
@@ -63,13 +53,15 @@ def predict_custom_image(image):
     return pred
 
 
-def color_to_gray(img):
-    image = predict_custom_image(img)
-    gray_image = rgb2gray(img)
-    return gray_image
-
-
 def create_train_test_generator(folder_path):
+    '''
+    This function takes in a path to a folder of images, and returns 
+    two Tensorflow DirectoryIterator objects for the passed folder. The 
+    two generators are a 70/30 split split of image data found in the 
+    provided folder.
+    Images are resized/converted to grayscale and run through the preprocessing
+    function predict_custom_image (above)
+    '''
     image_size = 200
     batch_size = 32
     datagen = keras.preprocessing.image.ImageDataGenerator(
@@ -96,6 +88,12 @@ def create_train_test_generator(folder_path):
 
 
 def create_master_train_generator(folder_path):
+    '''
+    This function takes in a path to a folder of images, and returns 
+    a Tensorflow DirectoryIterator object for the passed folder.
+    Images are resized/converted to grayscale and run through the preprocessing
+    function predict_custom_image (above)
+    '''
     image_size = 200
     batch_size = 32
     datagen = keras.preprocessing.image.ImageDataGenerator(
@@ -112,6 +110,13 @@ def create_master_train_generator(folder_path):
 
 
 def create_val_generator(folder_path):
+    '''
+    This function takes in a path to a folder of images, and returns 
+    a Tensorflow DirectoryIterator object for the passed folder.
+    This function was scaled for the hold-out data.
+    Images are resized/converted to grayscale and run through the preprocessing
+    function predict_custom_image (above)
+    '''
     image_size = 200
     batch_size = 32
     valgen = keras.preprocessing.image.ImageDataGenerator(
@@ -128,10 +133,18 @@ def create_val_generator(folder_path):
 
 
 def generator_mask_viz_check(generator):
+    '''
+    Display the first preprocessed image in the passed generator
+    '''
     plt.imshow(array_to_img(generator[0][0][0]))
 
 
 def compile_model():
+    '''
+    This function constructs and compiles the classifier used for predictions
+    in this project.
+    Output is the model object - assign function invocation to variable
+    '''
     model = Sequential()
     model.add(Conv2D(128, (3, 3), padding='same', input_shape=(200, 200, 1)))
     model.add(Dropout(0.2))
@@ -146,12 +159,18 @@ def compile_model():
 
 
 def model_fit_gen_and_save(model=None, train_generator=None, val_generator=None, num_epochs=None, model_name=None):
+    '''
+
+    '''
     model.fit_generator(
         train_generator, validation_data=val_generator, epochs=num_epochs)
     model.save(f'{model_name}.h5')
 
 
 def compile_train_save_model(train_generator=None, val_generator=None, num_epochs=None, model_name=None):
+    '''
+
+    '''
     model = compile_model()
     model_fit_gen_and_save(model=model, train_generator=train_generator,
                            val_generator=val_generator, num_epochs=num_epochs, model_name=model_name)

@@ -25,8 +25,8 @@ from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_a
 
 import sys
 import os
-from load_model import load_saved_model
-unet = load_saved_model('models/unet2.keras')
+# from load_model import load_saved_model
+unet = load_model('../../models/edge_detect/unet2.keras')
 
 
 def to_rgb1(im):
