@@ -1,5 +1,5 @@
 # SignBot
-*this repository is currently under reconstruction*
+*this repository is currently under reconstruction (9/29/20)*
 ## Repository Structure
 `usage_and_setup.md`--> *An important note on compatibility and running notebooks*
 `environment.yml`--> Variables to recreate conda environment
