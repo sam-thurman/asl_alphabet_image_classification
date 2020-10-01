@@ -1,5 +1,6 @@
 # SignBot
-*this repository is currently under reconstruction (9/29/20)*
+*! THIS REPOSITORY IS CURRENTLY UNDER RECONSTRUCTION (9/29/20) !*
+*Due to the nature of the data available at the time, models do not generalize very well on outside data, however perfrom extremely well on the provided test/validation sets. Recently, I've had the opportunity to create new image data, and will be continuing to optimize the current architectures/implementations with the goal of better generalization in live prediction.*
 ## Repository Structure
 `usage_and_setup.md`--> *An important note on compatibility and running notebooks*
 `environment.yml`--> Variables to recreate conda environment
