@@ -9,6 +9,7 @@ from keras import Model, Sequential
 from keras.models import load_model
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 from keras.models import model_from_json
+from skimage.color import rgb2gray, gray2rgb
 
 # Key dictionary from validation generator, used to get true labels from preds
 key_dict = {'A': 0, 'B': 1, 'C': 2,
@@ -27,16 +28,16 @@ key_dict = {'A': 0, 'B': 1, 'C': 2,
 # Init video capture
 cap = cv2.VideoCapture(0)
 
-# for JSON model
-# Load classifier
-json_file = open('../../notebooks/post_fi/mobilenet.json', 'r')
-loaded_model_json = json_file.read()
-json_file.close()
-model = model_from_json(loaded_model_json)
-# load weights into new model
-model.load_weights('../../notebooks/post_fi/models/mobilenet.h5')
+# # for JSON model
+# # Load classifier
+# json_file = open('../../notebooks/post_fi/mobilenet.json', 'r')
+# loaded_model_json = json_file.read()
+# json_file.close()
+# model = model_from_json(loaded_model_json)
+# # load weights into new model
+# model.load_weights('../../notebooks/post_fi/models/mobilenet.h5')
 
-# model = load_model('../../notebooks/post_fi/models/digits_model_1.h5')
+model = load_model('../../../ASL-Alphabet-Translation/full.model')
 
 while(True):
     # Capture frame-by-frame
@@ -58,10 +59,12 @@ while(True):
     input_size = (48, 48)
     model_in = flip.copy()
     resized_model_in = cv2.resize(model_in, input_size)
+    gray_in = rgb2gray(resized_model_in)
+    im = np.expand_dims(gray_in, 2)
 
 
     # Format for model prediction
-    model_in = np.expand_dims(resized_model_in, axis=0)
+    model_in = np.expand_dims(im, axis=0)
     # Classify and print class to original (shown) frame
 
     output = np.argmax(model.predict(model_in))
