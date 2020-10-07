@@ -139,3 +139,5 @@ cython_debug/
 
 data/
 models/
+notebooks/post_fi/models/
+notebooks/post_fi/TensorBoard_logs/
