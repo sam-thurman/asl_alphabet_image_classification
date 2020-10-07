@@ -28,15 +28,15 @@ key_dict = {'A': 0, 'B': 1, 'C': 2,
 cap = cv2.VideoCapture(0)
 
 # for JSON model
-# # Load classifier
-# json_file = open('../../notebooks/post_fi/models/cnn_scratch_model.json', 'r')
-# loaded_model_json = json_file.read()
-# json_file.close()
-# model = model_from_json(loaded_model_json)
-# # load weights into new model
-# model.load_weights('../../notebooks/post_fi/models/cnn_scratch_model.h5')
+# Load classifier
+json_file = open('../../notebooks/post_fi/mobilenet.json', 'r')
+loaded_model_json = json_file.read()
+json_file.close()
+model = model_from_json(loaded_model_json)
+# load weights into new model
+model.load_weights('../../notebooks/post_fi/models/mobilenet.h5')
 
-model = load_model('../../notebooks/post_fi/models/digits_model_1.h5')
+# model = load_model('../../notebooks/post_fi/models/digits_model_1.h5')
 
 while(True):
     # Capture frame-by-frame
@@ -50,15 +50,18 @@ while(True):
     square_roi = frame[square_feed[0]:square_feed[1],
                        square_feed[2]:square_feed[3]]
     # Resize for model input
-    input_size = 224
-    resized = cv2.resize(square_roi, (input_size, input_size))
+    frame_size = 400
+    resized = cv2.resize(square_roi, (frame_size, frame_size))
     # Flip horizontally for easier user interpretability
     flip = cv2.flip(resized, 1)
     # Copy frame for model input
+    input_size = (48, 48)
     model_in = flip.copy()
+    resized_model_in = cv2.resize(model_in, input_size)
+
 
     # Format for model prediction
-    model_in = np.expand_dims(model_in, axis=0)
+    model_in = np.expand_dims(resized_model_in, axis=0)
     # Classify and print class to original (shown) frame
 
     output = np.argmax(model.predict(model_in))
