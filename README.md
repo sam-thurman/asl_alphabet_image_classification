@@ -1,5 +1,5 @@
 # SignBot
-*! THIS REPOSITORY IS CURRENTLY UNDER RECONSTRUCTION (9/29/20) !*
+*! THIS REPOSITORY IS CURRENTLY UNDER RECONSTRUCTION (12/7/20) !*
 
 *Due to the nature of the data available at the time of project creation, models do not generalize very well on outside data, however perfrom extremely well on the provided test/validation sets. As I've recently had the opportunity to create new image data, I will be continuing to optimize the current architectures/implementations with the goal of better generalization in live prediction.  Check back soon for progress.*
 ## Repository Structure
